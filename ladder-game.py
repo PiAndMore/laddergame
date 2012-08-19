@@ -27,7 +27,7 @@ def set_leds(value):
     bus.write_byte_data(0x20, 0x01, value)
     
 def get_input(value):
-    # Eingabe ist Nummer des Pins, z.B. 7 für Pin 1.7 
+    # Eingabe ist Nummer des Pins, z.B. 7 für Pin 0.7 
     return ((bus.read_byte_data(0x20, 0x08) & int(math.pow(2,value))) > 0)
 
 sleep(0.5)
