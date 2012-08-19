@@ -27,7 +27,7 @@ def get_input(value):
     # Eingabe ist Nummer des Pins, z.B. 7 für Pin 0.7 
     # Ausgabe ist 0 wenn der Pin nicht aktiv ist
     # Sonst != 0
-    return bus.read_byte_data(0x20, 0x08) & 2**value
+    return bus.read_byte_data(0x20, 0x00) & 2**value
     
 # Schalte alle LEDs ein
 set_leds(0xff) 
