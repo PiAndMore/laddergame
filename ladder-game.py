@@ -9,7 +9,6 @@
 # - Zwei-Spieler-Variante (mit zwei Eingabeknöpfen)
 
 import smbus
-import math
 from time import sleep
 
 # Der erste I2C-Bus am Raspberry Pi.
@@ -26,7 +25,9 @@ def set_leds(value):
     
 def get_input(value):
     # Eingabe ist Nummer des Pins, z.B. 7 für Pin 0.7 
-    return ((bus.read_byte_data(0x20, 0x08) & int(math.pow(2,value))) > 0)
+    # Ausgabe ist 0 wenn der Pin nicht aktiv ist
+    # Sonst != 0
+    return bus.read_byte_data(0x20, 0x08) & 2**value
     
 # Schalte alle LEDs ein
 set_leds(0xff) 
@@ -57,11 +58,11 @@ while i < 8: # Das Spiel läuft bis 8 LEDs
         #  i = 4 (d.h., 4 LEDs sollen an sein)
         #  dann ist 2^4 = 16  -> Bitmuster 00010000
         #  und     2^4-1 = 15 -> Bitmuster 00001111
-        led_muster = int(math.pow(2, i)) - 1 
+        led_muster = 2**i - 1 
         
         # Außerdem noch eine weitere LED einschalten, wenn gewünscht.
         if aktiv:
-            led_muster += int(math.pow(2,i))
+            led_muster += 2**i
             
         # Jetzt LEDs schalten
         set_leds(led_muster)
@@ -91,8 +92,8 @@ while i < 8: # Das Spiel läuft bis 8 LEDs
 # Benutzer hat gewonnen!
 while True:
     for i in range(0, 7):
-        set_leds(int(math.pow(2, i)))
+        set_leds(2**i)
         sleep(0.1)
     for i in range(7, 0, -1):
-        set_leds(int(math.pow(2, i)))
+        set_leds(2**i)
         sleep(0.1)
