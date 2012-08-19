@@ -73,7 +73,7 @@ while i < 8: # Das Spiel läuft bis 8 LEDs
             # Es geht mit der nächsten LED weiter
             i += 1
             # Dem Benutzer Zeit geben, den Finger wieder vom Schalter zu nehmen
-            sleep(0.2)
+            sleep(0.5)
             break
 
         # Benutzer hat nicht richtig gedrückt.
