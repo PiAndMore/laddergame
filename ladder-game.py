@@ -19,8 +19,6 @@ bus = smbus.SMBus(0)
 bus.write_byte_data(0x20, 0x06, 0xff) # 0xff -> Bitmuster 0x11111111
 # Setze die Pins 1.0 bis 1.7 auf Ausgang
 bus.write_byte_data(0x20, 0x07, 0x00) # 0x00 -> Bitmuster 0x00000000
-# Schalte alle Pins 1.* auf "Ein"
-bus.write_byte_data(0x20, 0x01, 0xff)
 
 def set_leds(value):
     # Eingabe ist ein Byte, welches das Bitmuster beschreibt
@@ -29,6 +27,9 @@ def set_leds(value):
 def get_input(value):
     # Eingabe ist Nummer des Pins, z.B. 7 für Pin 0.7 
     return ((bus.read_byte_data(0x20, 0x08) & int(math.pow(2,value))) > 0)
+    
+# Schalte alle LEDs ein
+set_leds(0xff) 
 
 sleep(0.5)
 i = 0
@@ -74,6 +75,7 @@ while i < 8: # Das Spiel läuft bis 8 LEDs
             i += 1
             # Dem Benutzer Zeit geben, den Finger wieder vom Schalter zu nehmen
             sleep(0.5)
+            n = 0
             break
 
         # Benutzer hat nicht richtig gedrückt.
