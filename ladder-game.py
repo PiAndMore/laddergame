@@ -24,8 +24,15 @@ def set_leds(value):
     bus.write_byte_data(0x20, 0x01, value)
     
 def get_input(value):
-    # Eingabe ist Nummer des Pins, z.B. 7 für Pin 0.7 
-    # Ausgabe ist 0 wenn der Pin nicht aktiv ist
+    # value ist Nummer des Pins, z.B. 7 für Pin 0.7
+    # Antwort vom MCP23016 ist Bitmuster der aktiven Pins
+    #                           z.B. 11001010  (a)
+    # 2^value ist z.B. für value = 4 00000100  (b)
+    #                  für value = 7 10000000  (c)
+    # & ist logisches UND. Ergebnis von (a) & (b) ist:
+    #                  00000000 = 0 = False
+    # jedoch für (a) & (c):
+    #                  10000000
     # Sonst != 0
     return bus.read_byte_data(0x20, 0x00) & 2**value
     
